@@ -2,20 +2,33 @@
 // jQuery
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 var resizeId;
+var courses = {
+catalogs: [
+    {id : "math", description : "взять абонемент по математике"},
+    {id : "physics", description : "взять абонемент по физике"},
+    {id : "algorithms", description : "взять абонемент по информатике"},
+    {id:'bestMark', description : "исправить успеваемость"},
+    {id:'learnNew', description : "научиться программировать"},
+    {id:'myTime', description : "не тратить свое время впустую"},
+    {id:'getNew', description : "обрести новые знания и навыки"}
+]
+}
+
 
 $(document).ready(function($) {
     "use strict";
 
     console.log("HELLO PAZANY!");
+    setTitleBlack();
 
-    var latitude = 34.038405;
-    var longitude = -117.946944;
-    var markerImage = "assets/img/map-marker.png";
-    var mapElement = "map";
-    var mapStyle = [{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#444444"}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#f2f2f2"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"all","stylers":[{"saturation":-100},{"lightness":45}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.arterial","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#dbdbdb"},{"visibility":"on"}]}];
-    if( $("#map").length ){
-        simpleMap(latitude, longitude, markerImage, mapStyle, mapElement);
-    }
+    // var latitude = 34.038405;
+    // var longitude = -117.946944;
+    // var markerImage = "assets/img/map-marker.png";
+    // var mapElement = "map";
+    // var mapStyle = [{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#444444"}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#f2f2f2"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"all","stylers":[{"saturation":-100},{"lightness":45}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.arterial","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#dbdbdb"},{"visibility":"on"}]}];
+    // if( $("#map").length ){
+    //     simpleMap(latitude, longitude, markerImage, mapStyle, mapElement);
+    // }
 
     $("body").imagesLoaded( function() {
         $("body").addClass("loading-done");
@@ -24,9 +37,9 @@ $(document).ready(function($) {
         });
     });
 
-	$('.navbar-nav .nav-link').on('click', function(){
-		$('.navbar-collapse').collapse('hide');
-	});
+    $('.navbar-nav .nav-link').on('click', function(){
+        $('.navbar-collapse').collapse('hide');
+    });
 
     $(".ts-img-into-bg").each(function() {
         $(this).css("background-image", "url("+ $(this).find("img").attr("src") +")" );
@@ -141,12 +154,12 @@ $(document).ready(function($) {
 
     $(".ts-labels-inside-input input, .ts-labels-inside-input textarea").focusin(function() {
         $(this).parent().find("label").addClass("focused");
-        })
+    })
         .focusout(function() {
             if( $(this).val().length === 0 ){
                 $(this).parent().find("label").removeClass("focused")
-        }
-    });
+            }
+        });
 
     $("select").each(function(){
         $(this).wrap('<div class="select-wrapper"></div>');
@@ -290,9 +303,9 @@ $(document).ready(function($) {
             overflowY: "hidden",
             iframe: {
                 markup: '<div class="mfp-iframe-scaler">'+
-                '<div class="mfp-close"></div>'+
-                '<iframe class="mfp-iframe" frameborder="0" allowfullscreen></iframe>'+
-                '</div>',
+                    '<div class="mfp-close"></div>'+
+                    '<iframe class="mfp-iframe" frameborder="0" allowfullscreen></iframe>'+
+                    '</div>',
                 patterns: {
                     youtube: {
                         index: 'youtube.com/',
@@ -318,7 +331,7 @@ $(document).ready(function($) {
         var text = $(this).text();
         $(this).html("").append("<span>"+ text +"</span>").prepend("<div class='status'><i class='fas fa-circle-notch fa-spin spinner'></i></div>");
     });
-     //handle the submit of contact-form
+    //handle the submit of contact-form
     $(".ts-form-email .btn[type='submit']").on("click", function(e){
         var $button = $(this);
         var $form = $(this).closest("form");
@@ -345,12 +358,13 @@ $(document).ready(function($) {
     $(window).on("resize", function(){
         clearTimeout(resizeId);
         resizeId = setTimeout(doneResizing, 250);
+        setTitleBlack();
     });
 
 // On SCROLL actions
-//#TODO $(window).scrollTop() > 115 -> text екфтызфкуте 100
+//#TODO $(window).scrollTop() > 115 -> text transparent 100
     $(window).on("scroll", function(){
-        console.log("you scrolled to: " + $(window).scrollTop());
+        // console.log("you scrolled to: " + $(window).scrollTop());
         if ( $(window).scrollTop() >= $(window).height() ) {
             $(".navbar").addClass("in");
             $(".me-brand").addClass("in");
@@ -358,6 +372,7 @@ $(document).ready(function($) {
         else {
             $(".navbar").removeClass("in");
             $(".me-brand").removeClass("in");
+            setTitleBlack();
         }
     });
 
@@ -371,22 +386,41 @@ $(document).ready(function($) {
         }
     });
 
+
+    /*modal is opned:
+    get course, then work with button
+    */
+    $('#modalCourse').on('show.bs.modal', function(e) {
+        $('form-contact-message').val('');
+        var location;
+        var courseId = $(e.relatedTarget).data('course-id');
+        console.log(courseId);
+        courses.catalogs.forEach(function(entry) {
+            console.log(entry.id);
+            if (courseId==entry.id) {
+                $('#form-contact-message').text("Я хочу " + entry.description);
+            }
+
+        });
+        if ($(!'#form-contact-message').val()){
+            $('#form-contact-message').text("Я хочу и могу знать больше других, учиться лучше других, быть умнее других");
+        }
         $('#button_abik').on("click", function () {
 
             $('html, body').animate({
-                    scrollTop: $("#contact").offset().top
-                }, 1000, function () {
+                scrollTop: $("#contact").offset().top
+            }, 1000, function () {
                 $('#modalCourse').modal('hide');
             });
             //$('#modalCourse').modal('hide');
-            $('#form-contact-message').text("Я хочу взять абонемент!");
 
-         //shown
+
+            //shown
 
             //$('#modalCourse').modal('hide');//
 
 
-
+        });
     });
 
 
@@ -448,31 +482,37 @@ function getScrollBarWidth () {
     return 100 - widthWithScroll;
 }
 
-function simpleMap(latitude, longitude, markerImage, mapStyle, mapElement, markerDrag){
-    if (!markerDrag){
-        markerDrag = false;
-    }
-    var mapCenter = new google.maps.LatLng(latitude,longitude);
-    var mapOptions = {
-        zoom: 13,
-        center: mapCenter,
-        disableDefaultUI: true,
-        scrollwheel: false,
-        styles: mapStyle
-    };
-    var element = document.getElementById(mapElement);
-    // var map = new google.maps.Map(element, mapOptions);
-    // var marker = new google.maps.Marker({
-    //     position: new google.maps.LatLng(latitude,longitude),
-    //     map: map,
-    //     icon: markerImage,
-    //     draggable: markerDrag
-    // });
-}
+// function simpleMap(latitude, longitude, markerImage, mapStyle, mapElement, markerDrag){
+//     if (!markerDrag){
+//         markerDrag = false;
+//     }
+//     var mapCenter = new google.maps.LatLng(latitude,longitude);
+//     var mapOptions = {
+//         zoom: 13,
+//         center: mapCenter,
+//         disableDefaultUI: true,
+//         scrollwheel: false,
+//         styles: mapStyle
+//     };
+//     // var element = document.getElementById(mapElement);
+//     // var map = new google.maps.Map(element, mapOptions);
+//     // var marker = new google.maps.Marker({
+//     //     position: new google.maps.LatLng(latitude,longitude),
+//     //     map: map,
+//     //     icon: markerImage,
+//     //     draggable: markerDrag
+//     // });
+// }
 
 var hasAttr = function(name) {
     return (typeof this.attr(name) !== 'undefined' && this.attr(name) !== false);
 };
+
+function setTitleBlack() {
+    if ($(window).width()<= 769){
+        $((".me-brand")).addClass("in");
+    }
+}
 
 // var timerId = setInterval(function() {
 //     console.log( "second passed");
