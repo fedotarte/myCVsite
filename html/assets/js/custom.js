@@ -514,6 +514,13 @@ function setTitleBlack() {
     }
 }
 
+function setTimeForLegth(){
+    if (length>3000){
+        return 1500;
+    }
+    else return 500;
+}
+
 // var timerId = setInterval(function() {
 //     console.log( "second passed");
 // }, 1000);
