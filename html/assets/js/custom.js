@@ -371,9 +371,21 @@ $(document).ready(function($) {
         }
     });
 
-    $("#button_abik").on("click", function () {
-        $('#modalCourse').attr("aria-hidden","true").hide();
-    })
+        $('#button_abik').on("click", function () {
+
+            $('html, body').animate({
+                    scrollTop: $("#contact").offset().top
+                }, 1500);
+                $('#modalCourse').modal('hide');
+            $('#form-contact-message').text("Я хочу взять абонемент!");
+
+         //shown
+
+            //$('#modalCourse').modal('hide');//
+
+
+
+    });
 
 
 });
@@ -455,3 +467,11 @@ function simpleMap(latitude, longitude, markerImage, mapStyle, mapElement, marke
         draggable: markerDrag
     });
 }
+
+$.fn.hasAttr = function(name) {
+    return (typeof this.attr(name) !== 'undefined' && this.attr(name) !== false);
+};
+
+var timerId = setInterval(function() {
+    console.log( "second passed");
+}, 1000);
