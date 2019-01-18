@@ -375,7 +375,7 @@ $(document).ready(function($) {
 
             $('html, body').animate({
                     scrollTop: $("#contact").offset().top
-                }, 1500, function () {
+                }, 1000, function () {
                 $('#modalCourse').modal('hide');
             });
             //$('#modalCourse').modal('hide');
@@ -461,19 +461,19 @@ function simpleMap(latitude, longitude, markerImage, mapStyle, mapElement, marke
         styles: mapStyle
     };
     var element = document.getElementById(mapElement);
-    var map = new google.maps.Map(element, mapOptions);
-    var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(latitude,longitude),
-        map: map,
-        icon: markerImage,
-        draggable: markerDrag
-    });
+    // var map = new google.maps.Map(element, mapOptions);
+    // var marker = new google.maps.Marker({
+    //     position: new google.maps.LatLng(latitude,longitude),
+    //     map: map,
+    //     icon: markerImage,
+    //     draggable: markerDrag
+    // });
 }
 
-$.fn.hasAttr = function(name) {
+var hasAttr = function(name) {
     return (typeof this.attr(name) !== 'undefined' && this.attr(name) !== false);
 };
 
-var timerId = setInterval(function() {
-    console.log( "second passed");
-}, 1000);
+// var timerId = setInterval(function() {
+//     console.log( "second passed");
+// }, 1000);
