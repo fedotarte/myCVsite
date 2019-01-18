@@ -375,8 +375,10 @@ $(document).ready(function($) {
 
             $('html, body').animate({
                     scrollTop: $("#contact").offset().top
-                }, 1500);
+                }, 1500, function () {
                 $('#modalCourse').modal('hide');
+            });
+            //$('#modalCourse').modal('hide');
             $('#form-contact-message').text("Я хочу взять абонемент!");
 
          //shown
